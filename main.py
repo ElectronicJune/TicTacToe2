@@ -45,7 +45,7 @@ def collect_result(board):
 	if result(board)!= None :
 		match result(board):
 			case 1:
-				return (5,1)
+				return (20,1)
 			case 0:
 				return (-1,1)
 			case -1:
@@ -55,7 +55,7 @@ def collect_result(board):
 	next_player = first_player if sum([sum(i) for i in board])==0 else first_player*(-1)
 	for i in get_combination(board if next_player==1 else move(board)):
 		next_combination = collect_result(i)
-		total += next_combination[0]/2
+		total += next_combination[0]
 		length += next_combination[1]
 	if length==0:
 		length = 1
@@ -109,6 +109,7 @@ while True:
 		case 1 :
 			print("you won")
 		case -1 :
+			display(board)
 			print("you lose")
 		case 0 :
 			print("draw")
