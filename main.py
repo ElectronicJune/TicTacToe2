@@ -1,7 +1,7 @@
 first_player = 1 #player first
 #player = 1
 #bot = -1
-
+memory = dict()
 def flatten(board):
 	return board[0]+board[1]+board[2]
 def unflatten(flatten_board):
@@ -58,9 +58,12 @@ def win_rate(board):
 	return collect_result(board)[0]/collect_result(board)[1]
 #def get win probability
 def move(board):
+	if str(board) in memory:
+		return memory[str(board)]
 	# 1 collect result 
 	combinations = get_combination(board)
 	combinations.sort(key=win_rate)
+	memory[str(board)] = combinations[0]
 	return combinations[0]
 def transform(n,default):
 	match n :
