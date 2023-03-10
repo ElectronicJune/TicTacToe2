@@ -1,7 +1,11 @@
 first_player = 1 #player first
 #player = 1
 #bot = -1
-memory = dict()
+memory = {
+	'[[0, 0, 1], [0, 0, 0], [0, 0, 0]]':[[0,0,1],[0,-1,0],[0,0,0]],
+	'[[0, 0, 0], [0, 0, 0], [1, 0, 0]]':[[0,0,0],[0,-1,0],[1,0,0]],
+	'[[0, 0, 0], [0, 0, 0], [0, 0, 1]]':[[0,0,0],[0,-1,0],[0,0,1]]
+}
 def flatten(board):
 	return board[0]+board[1]+board[2]
 def unflatten(flatten_board):
