@@ -43,13 +43,19 @@ def get_combination(board):
 def collect_result(board):
 	global first_player
 	if result(board)!= None :
-		return (result(board),1)
+		match result(board):
+			case 1:
+				return (5,1)
+			case 0:
+				return (-1,1)
+			case -1:
+				return (-2,1)
 	total = 0
 	length = 0
 	next_player = first_player if sum([sum(i) for i in board])==0 else first_player*(-1)
 	for i in get_combination(board if next_player==1 else move(board)):
 		next_combination = collect_result(i)
-		total += next_combination[0]
+		total += next_combination[0]/2
 		length += next_combination[1]
 	if length==0:
 		length = 1
@@ -108,5 +114,3 @@ while True:
 			print("draw")
 	first_player *= -1 #alternate first player
 	current_player = first_player
-
-
