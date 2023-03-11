@@ -44,22 +44,22 @@ def get_combination(board):
 			combinations.append(add_piece(board,i,next_player))
 	return combinations
 #def result collect (recursive)
-def collect_result(board):
+def collect_result(board,n=100):
 	global first_player
 	if result(board)!= None :
 		match result(board):
 			case 1:
-				return (20,1)
+				return (20000,1)
 			case 0:
-				return (-1,1)
+				return (0,1)
 			case -1:
-				return (-2,1)
+				return (-1,1)
 	total = 0
 	length = 0
 	next_player = first_player if sum([sum(i) for i in board])==0 else first_player*(-1)
 	for i in get_combination(board if next_player==1 else move(board)):
-		next_combination = collect_result(i)
-		total += next_combination[0]
+		next_combination = collect_result(i,n/2)
+		total += next_combination[0]/n
 		length += next_combination[1]
 	if length==0:
 		length = 1
@@ -75,6 +75,7 @@ def move(board):
 	combinations.sort(key=win_rate)
 	memory[str(board)] = combinations[0]
 	return combinations[0]
+		
 def transform(n,default):
 	match n :
 		case 1:
@@ -95,6 +96,7 @@ print("Your piece is O .\n")
 
 current_player = 1
 # #while loop(new game)
+
 while True:
 	board = [[0,0,0],[0,0,0],[0,0,0]]
 	while result(board)==None:
@@ -102,9 +104,9 @@ while True:
 			board = move(board)
 		else:
 			display(board)
-			player_move = int(input())
+			player_move = int(input("> "))
 			while player_move>9 or flatten(board)[player_move-1]!=0 :
-				player_move = int(input())
+				player_move = int(input("> "))
 			board = add_piece(board,player_move-1,1)
 		
 		current_player *= -1
