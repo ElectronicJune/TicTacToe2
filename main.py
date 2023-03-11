@@ -49,17 +49,18 @@ def collect_result(board,n=100):
 	if result(board)!= None :
 		match result(board):
 			case 1:
-				return (20000,1)
+				return (99999999999999999999999999,1)
 			case 0:
 				return (0,1)
 			case -1:
 				return (-1,1)
 	total = 0
 	length = 0
+	bot_wins = 0
 	next_player = first_player if sum([sum(i) for i in board])==0 else first_player*(-1)
 	for i in get_combination(board if next_player==1 else move(board)):
 		next_combination = collect_result(i,n/2)
-		total += next_combination[0]/n
+		total += next_combination[0]/n 
 		length += next_combination[1]
 	if length==0:
 		length = 1
@@ -92,11 +93,14 @@ def display(board):
  {transform(board[2][0],7)} | {transform(board[2][1],8)} | {transform(board[2][2],9)} """)
 #header
 print("+-----------------+\n| TIC TAC TOE bot |\n+-----------------+\n")
-print("Your piece is O .\n")
+print("Your piece is O .")
+print('Enter "q" to quit.\n')
 
 current_player = 1
 # #while loop(new game)
-
+wins = 0
+loses = 0
+draws = 0
 while True:
 	board = [[0,0,0],[0,0,0],[0,0,0]]
 	while result(board)==None:
@@ -104,7 +108,17 @@ while True:
 			board = move(board)
 		else:
 			display(board)
-			player_move = int(input("> "))
+			player_move = input("> ")
+			if player_move=="q" :
+				print(f"""\n=============
+ wins  : {wins}
+ loses : {loses}
+ draws : {draws}
+=============""")
+				input()
+				exit()
+			else :
+				player_move = int(player_move)
 			while player_move>9 or flatten(board)[player_move-1]!=0 :
 				player_move = int(input("> "))
 			board = add_piece(board,player_move-1,1)
@@ -113,11 +127,14 @@ while True:
 	
 	match result(board):
 		case 1 :
-			print("you won")
+			print("\n+---------+\n| YOU WON |\n+---------+\n")
+			wins += 1
 		case -1 :
 			display(board)
-			print("you lose")
+			print("\n+----------+\n| YOU LOSE |\n+----------+\n")
+			loses += 1
 		case 0 :
-			print("draw")
+			print("\n+------+\n| DRAW |\n+------+\n")
+			draws += 1
 	first_player *= -1 #alternate first player
 	current_player = first_player
